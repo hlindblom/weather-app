@@ -14,4 +14,41 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'public'),
     },
+    module: {
+        rules: [
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
+            {
+                test: /\.(scss)$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: () => [require('autoprefixer')],
+                            },
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                    },
+                ],
+            },
+            {
+                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                use: [{ loader: 'url-loader?limit=100000' }],
+            },
+        ],
+    },
 };
